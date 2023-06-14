@@ -12,7 +12,8 @@ import (
 
 // Define log levels as constants
 const (
-	DEBUG = iota
+	TRACE = iota
+	DEBUG
 	INFO
 	WARN
 	ERROR
@@ -20,6 +21,7 @@ const (
 
 // Define the level mapping
 var levelMapping = map[string]int{
+	"TRACE": TRACE,
 	"DEBUG": DEBUG,
 	"INFO":  INFO,
 	"WARN":  WARN,
@@ -47,12 +49,15 @@ func DisableColors() {
 	color.NoColor = true
 }
 
+// Trace log function
+func Trace(v ...interface{}) {
+	if level <= DEBUG {
+		fmt.Fprintf(color.Output, "[%s] %v\n", color.WhiteString("TRACE"), strings.Join(formatArgs(v...), " "))
+	}
+}
+
 // Debug log function
 func Debug(v ...interface{}) {
-
-	lock.Lock() //Prevent race conditions
-	defer lock.Unlock()
-
 	if level <= DEBUG {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.MagentaString("DEBUG"), strings.Join(formatArgs(v...), " "))
 	}
@@ -60,10 +65,6 @@ func Debug(v ...interface{}) {
 
 // Info log function
 func Info(v ...interface{}) {
-
-	lock.Lock()
-	defer lock.Unlock()
-
 	if level <= INFO {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.CyanString("INFO"), strings.Join(formatArgs(v...), " "))
 	}
@@ -71,10 +72,6 @@ func Info(v ...interface{}) {
 
 // Info log function with Success: in green before the log message
 func InfoWithSuccess(v ...interface{}) {
-
-	lock.Lock()
-	defer lock.Unlock()
-
 	if level <= INFO {
 		fmt.Fprintf(color.Output, "[%s] %s: %v\n", color.CyanString("INFO"), color.GreenString("Success"), strings.Join(formatArgs(v...), " "))
 	}
@@ -89,10 +86,6 @@ func Warn(v ...interface{}) {
 
 // Error log function
 func Error(v ...interface{}) {
-
-	lock.Lock()
-	defer lock.Unlock()
-
 	if level <= ERROR {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.RedString("ERROR"), strings.Join(formatArgs(v...), " "))
 	}
