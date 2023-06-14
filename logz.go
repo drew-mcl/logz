@@ -1,10 +1,11 @@
-package main
+package logz
 
 import (
 	"fmt"
 	"io"
 	"os"
 	"strings"
+	"sync"
 
 	"github.com/fatih/color"
 )
@@ -27,6 +28,7 @@ var levelMapping = map[string]int{
 
 // Current logging level
 var level = DEBUG
+var lock sync.Mutex
 
 // Setting custom output to std out over print as its easier to test
 var Output io.Writer = os.Stdout
@@ -47,6 +49,10 @@ func DisableColors() {
 
 // Debug log function
 func Debug(v ...interface{}) {
+
+	lock.Lock() //Prevent race conditions
+	defer lock.Unlock()
+
 	if level <= DEBUG {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.MagentaString("DEBUG"), strings.Join(formatArgs(v...), " "))
 	}
@@ -54,6 +60,10 @@ func Debug(v ...interface{}) {
 
 // Info log function
 func Info(v ...interface{}) {
+
+	lock.Lock()
+	defer lock.Unlock()
+
 	if level <= INFO {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.CyanString("INFO"), strings.Join(formatArgs(v...), " "))
 	}
@@ -61,6 +71,10 @@ func Info(v ...interface{}) {
 
 // Info log function with Success: in green before the log message
 func InfoWithSuccess(v ...interface{}) {
+
+	lock.Lock()
+	defer lock.Unlock()
+
 	if level <= INFO {
 		fmt.Fprintf(color.Output, "[%s] %s: %v\n", color.CyanString("INFO"), color.GreenString("Success"), strings.Join(formatArgs(v...), " "))
 	}
@@ -75,6 +89,10 @@ func Warn(v ...interface{}) {
 
 // Error log function
 func Error(v ...interface{}) {
+
+	lock.Lock()
+	defer lock.Unlock()
+
 	if level <= ERROR {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.RedString("ERROR"), strings.Join(formatArgs(v...), " "))
 	}
