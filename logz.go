@@ -59,7 +59,7 @@ func Trace(v ...interface{}) {
 // Debug log function
 func Debug(v ...interface{}) {
 	if level <= DEBUG {
-		fmt.Fprintf(color.Output, "[%s] %v\n", color.MagentaString("DEBUG"), strings.Join(formatArgs(v...), " "))
+		fmt.Fprintf(color.Output, "[%s ] %v\n", color.MagentaString("DEBUG"), strings.Join(formatArgs(v...), " "))
 	}
 }
 
@@ -73,14 +73,14 @@ func Info(v ...interface{}) {
 // Info log function with Success: in green before the log message
 func InfoWithSuccess(v ...interface{}) {
 	if level <= INFO {
-		fmt.Fprintf(color.Output, "[%s] %s: %v\n", color.CyanString("INFO"), color.GreenString("Success"), strings.Join(formatArgs(v...), " "))
+		fmt.Fprintf(color.Output, "[%s ] %s: %v\n", color.CyanString("INFO"), color.GreenString("Success"), strings.Join(formatArgs(v...), " "))
 	}
 }
 
 // Warning log function
 func Warn(v ...interface{}) {
 	if level <= WARN {
-		fmt.Fprintf(color.Output, "[%s] %v\n", color.YellowString("WARN"), strings.Join(formatArgs(v...), " "))
+		fmt.Fprintf(color.Output, "[%s ] %v\n", color.YellowString("WARN"), strings.Join(formatArgs(v...), " "))
 	}
 }
 
