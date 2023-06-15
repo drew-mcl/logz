@@ -39,7 +39,7 @@ func TestLogFunctions(t *testing.T) {
 	Warn("Warning message")
 	Error("Error message")
 
-	expected := "[INFO] Info message\n[WARN] Warning message\n[ERROR] Error message\n"
+	expected := "[INFO ] Info message\n[WARN ] Warning message\n[ERROR] Error message\n"
 	assert.Contains(t, buf.String(), expected, "Expected log output")
 }
 
@@ -52,7 +52,7 @@ func TestInfoWithSuccess(t *testing.T) {
 
 	InfoWithSuccess("Operation completed")
 
-	expected := "[INFO] " + color.GreenString("Success") + ": Operation completed\n"
+	expected := "[INFO ] " + color.GreenString("Success") + ": Operation completed\n"
 	assert.Contains(t, buf.String(), expected, "Expected log output")
 }
 
@@ -64,7 +64,7 @@ func TestDisableColors(t *testing.T) {
 	DisableColors()
 	Info("Test message")
 
-	expected := "[INFO] Test message\n"
+	expected := "[INFO ] Test message\n"
 	assert.Contains(t, buf.String(), expected, "Expected log output without color codes")
 }
 
@@ -95,7 +95,7 @@ func TestLogMultipleArguments(t *testing.T) {
 	level = INFO
 	Info("Test", "message", 123)
 
-	expected := "[INFO] Test message 123\n"
+	expected := "[INFO ] Test message 123\n"
 	assert.Contains(t, buf.String(), expected, "Expected log output with multiple arguments")
 }
 

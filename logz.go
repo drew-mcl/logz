@@ -66,7 +66,7 @@ func Debug(v ...interface{}) {
 // Info log function
 func Info(v ...interface{}) {
 	if level <= INFO {
-		fmt.Fprintf(color.Output, "[%s] %v\n", color.CyanString("INFO"), strings.Join(formatArgs(v...), " "))
+		fmt.Fprintf(color.Output, "[%s ] %v\n", color.CyanString("INFO"), strings.Join(formatArgs(v...), " "))
 	}
 }
 
