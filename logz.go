@@ -59,7 +59,7 @@ func Trace(v ...interface{}) {
 // Debug log function
 func Debug(v ...interface{}) {
 	if level <= DEBUG {
-		fmt.Fprintf(color.Output, "[%s ] %v\n", color.MagentaString("DEBUG"), strings.Join(formatArgs(v...), " "))
+		fmt.Fprintf(color.Output, "[%s] %v\n", color.MagentaString("DEBUG"), strings.Join(formatArgs(v...), " "))
 	}
 }
 
