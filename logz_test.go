@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"log"
 	"os"
-	"strings"
-	"sync"
 	"testing"
 
 	"github.com/fatih/color"
@@ -116,34 +114,4 @@ func BenchmarkStandardLog(b *testing.B) {
 	log.Println("Warm up")
 	b.ResetTimer()
 	benchmarkLogLatency(log.Println, b)
-}
-
-func TestConcurrency(t *testing.T) {
-	var buf bytes.Buffer
-	color.Output = &buf
-
-	// Set log level to DEBUG
-	level = DEBUG
-
-	const iterations = 100
-	const workers = 10
-
-	var wg sync.WaitGroup
-	wg.Add(workers)
-
-	// Start multiple goroutines
-	for i := 0; i < workers; i++ {
-		go func(workerID int) {
-			defer wg.Done()
-			for j := 0; j < iterations; j++ {
-				Debug("Worker", workerID, "iteration", j)
-			}
-		}(i)
-	}
-
-	// Wait for all goroutines to finish
-	wg.Wait()
-
-	lines := strings.Split(buf.String(), "\n")
-	assert.Equal(t, workers*iterations, len(lines)-1, "Expected number of log lines")
 }

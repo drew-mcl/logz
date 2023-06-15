@@ -51,7 +51,7 @@ func DisableColors() {
 
 // Trace log function
 func Trace(v ...interface{}) {
-	if level <= DEBUG {
+	if level <= TRACE {
 		fmt.Fprintf(color.Output, "[%s] %v\n", color.BlueString("TRACE"), strings.Join(formatArgs(v...), " "))
 	}
 }
